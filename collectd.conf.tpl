@@ -9,14 +9,21 @@ LoadPlugin cpu
 LoadPlugin df
 LoadPlugin load
 LoadPlugin memory
+
+<Plugin memory>
+  ValuesAbsolute = true
+  ValuesPercentage = true
+</Plugin>
+
 LoadPlugin disk
 LoadPlugin interface
 LoadPlugin uptime
 LoadPlugin swap
-LoadPlugin write_graphite
 
 <Plugin cpu>
-  ReportByCpu {{ REPORT_BY_CPU | default("false") }}
+  ReportByCpu = {{ REPORT_BY_CPU | default("false") }}
+  ReportByState = true
+  ValuesPercentage = true
 </Plugin>
 
 <Plugin df>
@@ -61,16 +68,9 @@ LoadPlugin write_graphite
   IgnoreSelected true
 </Plugin>
 
+LoadPlugin network
 
-<Plugin "write_graphite">
- <Carbon>
-   Host "{{ GRAPHITE_HOST }}"
-   Port "{{ GRAPHITE_PORT | default("2003") }}"
-   Prefix "{{ GRAPHITE_PREFIX | default("collectd.") }}"
-   EscapeCharacter "_"
-   SeparateInstances true
-   StoreRates true
-   AlwaysAppendDS false
- </Carbon>
+<Plugin network>
+        Server "52.11.25.153" "5557"
 </Plugin>
 
