@@ -71,6 +71,6 @@ LoadPlugin swap
 LoadPlugin network
 
 <Plugin network>
-        Server "52.11.25.153" "5557"
+        Server "{{ SEND_TO_HOST | default("52.11.25.153") }}" "{{ SEND_TO_PORT | default("5557") }}"
 </Plugin>
 
