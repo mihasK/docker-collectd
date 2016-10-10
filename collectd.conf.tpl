@@ -51,7 +51,7 @@ LoadPlugin swap
   MountPoint "/etc/hosts"
   IgnoreSelected true
   ReportByDevice false
-  ReportReserved true
+  #ReportReserved true
   ReportInodes true
 </Plugin>
 
