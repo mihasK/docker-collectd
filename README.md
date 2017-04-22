@@ -1,37 +1,18 @@
-collectd-write-graphite
-=======================
+# How to run:
 
-Basic collectd-based server monitoring. Sends stats to Graphite.
+``` docker run -d -e HOST_NAME=dev -e SEND_TO_HOST=13.56.63.97 -e SEND_TO_PORT=5557 --restart=always --name collectd-agent mihas/docker-collectd```
 
-Collectd metrics:
+# How to receive:
+For example using logstash:
 
-* CPU used/free/idle/etc
-* Free disk (via mounting hosts '/' into container, eg: -v /:/hostfs:ro)
-* Disk performance
-* Load average
-* Memory used/free/etc
-* Uptime
-* Network interface
-* Swap
+```
+input {
+  udp {
+     port => 5557
+     buffer_size => 1452
+     codec => collectd { }
+     type => "collectd"
+  }
 
-Environment variables
----------------------
-
-* `HOST_NAME`
-  - Will be sent to Graphite
-  - Required
-* `GRAPHITE_HOST`
-  - Graphite IP or hostname
-  - Required
-* `GRAPHITE_PORT`
-  - Graphite port
-  - Optional, defaults to 2003
-* `GRAPHITE_PREFIX`
-  - Graphite prefix
-  - Optional, defaults to collectd.
-* `REPORT_BY_CPU`
-  - Report per-CPU metrics if true, global sum of CPU metrics if false (details: [collectd.conf man page](https://collectd.org/documentation/manpages/collectd.conf.5.shtml#plugin_cpu))
-  - Optional, defaults to false.
-* `COLLECT_INTERVAL`
-  - Collection interval and thus resolution of metrics
-  - Optional, defaults to 10
+}
+```
